@@ -9,15 +9,14 @@
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @grant       GM_addStyle
 // @grant       none
-// @version 20190101
-// @version 1.2 zmiana BEGINNING
-// @version 1.3 $(BEGINNING).parent().prepend(...)
+// @version 20190102
 // ==/UserScript==
 
 var BEGINNING = '.page__heading'; //'.pinned-giveaways__outer-wrap';
 
+var desiredTitlesRegexp = new RegExp('Dead Rising|Homeworld|Plague Inc|TASTEE|Race The Sun|Breaking Good|Assassin\'s Creed|Return of the Obra Dinn|Mutant Year Zero|GRIS|Thief Simulator|Tiny Echo|Visage|King\s Bird|INSIDE|Peregrin|Detention|Edge of Twilight|Seven: The Days Long Gone|Decay: THe Mare|TimeLock|Four Sided Fantasy|The Piano|Q\.U\.B\.E|Pinstripe|Watch This|Ancient Planet Tower Defense|Atlantis|The Free Ones|Dead Secret|The Bard\'s Tale|Lock Parsing 2|Dungeons 3|Among the Sleep|The Surge|observer_|Distrust|Tokyo 42|Rain World|Beholder|Ignorance is Strength|Elegy for a Dead World|Owlboy|FarSky|King\'s Bounty|Stacking|Dungeon Siege|Ceville|Hard Reset Redux|Antichamber|20181027|Rebel Galaxy|Kentucky Route Zero|Old Man\'s Journey|Gremlins, Inc|Back from Hell|The Sexy Brutale|LISA|We Were Here Too|Hollow Knight|Darkest Dungeon|The Old City|Yesterday Origins|Super Cloudbuilt|Black The Fall|Moon Hunters|Bird Game|Silence|Shadow Man|Monstrum|Skullgirls|Forward to the Sky|Sam & Max|Prophour23|STAR WARS|Star Wars|Battle Chef|Original Journey|20180917|BloodRayne|The Final Station|Monaco|BioShock|Serial Cleaner|Gunpoint|The Tiny Bang Story|Just Cause|SOMA|Torment|Little Nightmares|Figment|The Journey Down|Staxel|Dishonored|Pathologic|Mark of the Ninja|FTL: Faster Than Light|The Music Machine|The Longest Journey|Beat The Game|Lost In Space|Meadow|Oknytt|Darksiders|Far Cry|SAWKOBAN|20180907|Bridge Constructor Portal|The Void|Thirty Flights|Rust|The Long Journey Home|Wasteland|Shadow Tactics|The Floor is Jelly|Good Robot|Cloudbuilt|Resident Evil|Wizardry|Turok|RUNNING WITH RIFLES|DreadOut|RimWorld|Sudeki|GemCraft|We Are The Dwarves|Deployment|Ultimate General|How to Survive|White Noise|Dead Age|Mysterium|Teleglitch|35MM|Civilization|Wasteland|GT Legends|Ticket to Ride|Tiltagon|Icewind Dale|Painkiller|Mortal Kombat|Injustice|AER Memories of Old|Worms|Dead by Daylight|Deus Ex|Deadlight|^Bounce$|Turing Test|Kerbal|Heroes of Annihilated Empires|The Walking Dead|MONSTER HUNTER|^DUSK$|Grey Goo|Space Hulk|DuckTales|Larry|Airport Madness|Factorio|Etherlords|Ashes of the Singularity|Sniper Elite|Sins of a Solar Empire|Devil Daggers|Cities in Motion|Broken Sword|12 is Better Than 6|The Wolf Among Us|WRC|Space Pilgrim|This War of Mine|Anomaly|Call of Juarez|Overcooked|Sacred|DISTRAINT|Berseria|Munin|Kona|DOOM|Shuyan|Stronghold|Fallout|Memoria|Unwritten|Into the Breach|Getting Over It|SteamWorld|Risen|XCOM|Sacred|Strife|Oddworld|DARK SOULS|Call of Duty|Dirt Rally|Project CARS|NieR|TellTale|Gray Matter|The Deadly Tower of Monsters|Hotline Miami|Murder Mystery Adventure|Secret Ponchos|Rock of Ages|Chernobyl Commando|rFactor|Ghost Warrior|Samorost|Chronicles of Mystery|I Have No Mouth, and I Must Scream|Frostpunk|Final Fantasy|FINAL FANTASY|Etherlords Bundle|The Gate of Firmament|Styx|Advent Rising|Patent9|Reprisal Universe|Prey|Rune Classic|Lara Croft|Pillars of Eternity|Borderlands|observer|METAL GEAR|Frederic|Dark Souls|Majesty|Windward|Prototype|SUPERHOT|Gorky|Space HUlk|Warhammer|Metal Gear|System Shock|Heroes of Might|Isolation|Song of the Deep|Grand Theft|Endless|Mafia|Syberia|My Name is Addiction|Final Fantasy|DmC|Turmoil|Norwood|Monkey Island|Republique|Zeno Clash|Tacoma|Max Payne|Ryse|Styx|Cognition|Ken Follet|Toren|Deadlight|Carmageddon|^Collapse$|Grimrock|DiRT Rally|Gabriel Knight|RUINER|Batman|Rainbow Six|Deponia|Force Unleashed|Manhunt|Noire|Doom |Gorky|Serious Sam|Dark Souls|Uncertain|Firewatch');
+
 function isDesired(e){
-    var desiredTitlesRegexp = new RegExp('Dead Rising|Homeworld|Plague Inc|TASTEE|Race The Sun|Breaking Good|Assassin\'s Creed|Return of the Obra Dinn|Mutant Year Zero|GRIS|Thief Simulator|Tiny Echo|Visage|King\s Bird|INSIDE|Peregrin|Detention|Edge of Twilight|Seven: The Days Long Gone|Decay: THe Mare|TimeLock|Four Sided Fantasy|The Piano|Q\.U\.B\.E|Pinstripe|Watch This|Ancient Planet Tower Defense|Atlantis|The Free Ones|Dead Secret|The Bard\'s Tale|Lock Parsing 2|Dungeons 3|Among the Sleep|The Surge|observer_|Distrust|Tokyo 42|Rain World|Beholder|Ignorance is Strength|Elegy for a Dead World|Owlboy|FarSky|King\'s Bounty|Stacking|Dungeon Siege|Ceville|Hard Reset Redux|Antichamber|20181027|Rebel Galaxy|Kentucky Route Zero|Old Man\'s Journey|Gremlins, Inc|Back from Hell|The Sexy Brutale|LISA|We Were Here Too|Hollow Knight|Darkest Dungeon|The Old City|Yesterday Origins|Super Cloudbuilt|Black The Fall|Moon Hunters|Bird Game|Silence|Shadow Man|Monstrum|Skullgirls|Forward to the Sky|Sam & Max|Prophour23|STAR WARS|Star Wars|Battle Chef|Original Journey|20180917|BloodRayne|The Final Station|Monaco|BioShock|Serial Cleaner|Gunpoint|The Tiny Bang Story|Just Cause|SOMA|Torment|Little Nightmares|Figment|The Journey Down|Staxel|Dishonored|Pathologic|Mark of the Ninja|FTL: Faster Than Light|The Music Machine|The Longest Journey|Beat The Game|Lost In Space|Meadow|Oknytt|Darksiders|Far Cry|SAWKOBAN|20180907|Bridge Constructor Portal|The Void|Thirty Flights|Rust|The Long Journey Home|Wasteland|Shadow Tactics|The Floor is Jelly|Good Robot|Cloudbuilt|Resident Evil|Wizardry|Turok|RUNNING WITH RIFLES|DreadOut|RimWorld|Sudeki|GemCraft|We Are The Dwarves|Deployment|Ultimate General|How to Survive|White Noise|Dead Age|Mysterium|Teleglitch|35MM|Civilization|Wasteland|GT Legends|Ticket to Ride|Tiltagon|Icewind Dale|Painkiller|Mortal Kombat|Injustice|AER Memories of Old|Worms|Dead by Daylight|Deus Ex|Deadlight|^Bounce$|Turing Test|Kerbal|Heroes of Annihilated Empires|The Walking Dead|MONSTER HUNTER|^DUSK$|Grey Goo|Space Hulk|DuckTales|Larry|Airport Madness|Factorio|Etherlords|Ashes of the Singularity|Sniper Elite|Sins of a Solar Empire|Devil Daggers|Cities in Motion|Broken Sword|12 is Better Than 6|The Wolf Among Us|WRC|Space Pilgrim|This War of Mine|Anomaly|Call of Juarez|Overcooked|Sacred|DISTRAINT|Berseria|Munin|Kona|DOOM|Shuyan|Stronghold|Fallout|Memoria|Unwritten|Into the Breach|Getting Over It|SteamWorld|Risen|XCOM|Sacred|Strife|Oddworld|DARK SOULS|Call of Duty|Dirt Rally|Project CARS|NieR|TellTale|Gray Matter|The Deadly Tower of Monsters|Hotline Miami|Murder Mystery Adventure|Secret Ponchos|Rock of Ages|Chernobyl Commando|rFactor|Ghost Warrior|Samorost|Chronicles of Mystery|I Have No Mouth, and I Must Scream|Frostpunk|Final Fantasy|FINAL FANTASY|Etherlords Bundle|The Gate of Firmament|Styx|Advent Rising|Patent9|Reprisal Universe|Prey|Rune Classic|Lara Croft|Pillars of Eternity|Borderlands|observer|METAL GEAR|Frederic|Dark Souls|Majesty|Windward|Prototype|SUPERHOT|Gorky|Space HUlk|Warhammer|Metal Gear|System Shock|Heroes of Might|Isolation|Song of the Deep|Grand Theft|Endless|Mafia|Syberia|My Name is Addiction|Final Fantasy|DmC|Turmoil|Norwood|Monkey Island|Republique|Zeno Clash|Tacoma|Max Payne|Ryse|Styx|Cognition|Ken Follet|Toren|Deadlight|Carmageddon|^Collapse$|Grimrock|DiRT Rally|Gabriel Knight|RUINER|Batman|Rainbow Six|Deponia|Force Unleashed|Manhunt|Noire|Doom |Gorky|Serious Sam|Dark Souls|Uncertain|Firewatch');
     var name = $(e).find('.giveaway__heading__name')[0];
     var result = name !==undefined && desiredTitlesRegexp.test(name.text);
     return result;
@@ -30,7 +29,7 @@ var nextPageNumber;
 })();
 
 function sgStart(){
-    debugger;
+    //debugger;
     //sgRemoveAds();
     sgSetNextPageNumber();
     //sgRemoveEntered();
@@ -62,7 +61,7 @@ function sgSort(){
     // więcej niż 1 kopia(posiada tekst "Copies") do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         console.log($(a));
-        debugger;
+        // debugger;
         $(a).find('.giveaway__heading__thin').each(function (n, b) {
             var isCopiesElement = $(b).text().indexOf("Copies")!= -1;
             if(isCopiesElement &&!isDesired(a)) {
@@ -74,28 +73,28 @@ function sgSort(){
 
     // level 1 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if(!isDesired(a) && 1==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
+        if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('1')>0 ){
             $('.giveaway__row-outer-wrap:first').prepend(a);
         }
     });
 
     // level 2 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if(!isDesired(a) && 2==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
+        if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2')>0 ){
             $('.giveaway__row-outer-wrap:first').prepend(a);
         }
     });
 
     // level 3 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if(!isDesired(a) && 3==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
+        if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('3')>0 ){
             $('.giveaway__row-outer-wrap:first').prepend(a);
         }
     });
 
     // level 4 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if(!isDesired(a) && 4==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
+        if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4')>0 ){
             $('.giveaway__row-outer-wrap:first').prepend(a);
         }
     });
@@ -111,28 +110,28 @@ function sgSort(){
     // POSZUKIWANE LEVELE do przodu
     // poszukiwany level 1 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if(isDesired(a) && 1==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
+        if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('1')>0 ){
             $('.giveaway__row-outer-wrap:first').prepend(a);
         }
     });
 
     // poszukiwany level 2 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if(isDesired(a) && 2==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
+        if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2')>0 ){
             $('.giveaway__row-outer-wrap:first').prepend(a);
         }
     });
 
     // poszukiwany level 3 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if(isDesired(a) && 3==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
+        if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('3')>0 ){
             $('.giveaway__row-outer-wrap:first').prepend(a);
         }
     });
 
     // poszukiwany level 4 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if(isDesired(a) && 4==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
+        if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4')>0 ){
             $('.giveaway__row-outer-wrap:first').prepend(a);
         }
     });
@@ -148,7 +147,7 @@ function sgLoadAnotherPage1(){
         url:       'https://www.steamgifts.com/giveaways/search?page='+nextPageNumber,
         dataType:   'html',
         success:    function (data) {
-            debugger;
+            //debugger;
             var $page = $(data);
             var $elements = $page.find('.giveaway__row-outer-wrap');
             //var $first = $('.giveaway__row-outer-wrap').first();
@@ -158,9 +157,9 @@ function sgLoadAnotherPage1(){
             // alert('sortuję ponownie');
             sgRemoveEntered();
             sgBetterFonts();
-            $('#nextPageButton').parent().hide();  //document.querySelector(BEGINNING).style.display='none';
+            $('#nextPageButton').parent().hide();
             sgSort();
-            $('#nextPageButton').parent().show();  //document.querySelector(BEGINNING).style.display='';
+            $('#nextPageButton').parent().show();
             nextPageNumber++;
             sgRefreshButtonNumber();
         }
@@ -257,4 +256,3 @@ function getQueryVariable(variable){
     return(1);
 }
 //alert('full script loaded');
-
