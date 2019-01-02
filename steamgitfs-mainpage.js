@@ -53,6 +53,7 @@ function sgShowPromoted(){
     // $('.pinned-giveaways__button').click();	//przestało działać, ale wersja poniżej działa
     $('.pinned-giveaways__inner-wrap--minimized').removeClass('pinned-giveaways__inner-wrap--minimized');
 }
+
 function sgSort(){
     // alert('sgSort');
     // var start = new Date().getTime();
@@ -140,7 +141,18 @@ function sgSort(){
     // alert("Sorted in " + (end-start) + "ms");
 }
 
+function blockButton(){
+    var button = $('#nextPageButton').first();
+    button.style=button.css('text-decoration','line-through');
+}
+
+function unblockButton(){
+    var button = $('#nextPageButton').first();
+    button.style=button.css('text-decoration','');
+}
+
 function sgLoadAnotherPage1(){
+    blockButton();
     // alert("start sgLoadAnotherPage1");
     $.ajax ( {
         type:       'GET',
@@ -162,6 +174,7 @@ function sgLoadAnotherPage1(){
             $('#nextPageButton').parent().show();
             nextPageNumber++;
             sgRefreshButtonNumber();
+            unblockButton();
         }
     } );
 }
