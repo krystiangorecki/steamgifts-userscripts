@@ -100,9 +100,39 @@ function sgSort(){
         }
     });
 
-    // poszukiwane tytuły do przodu
+
+    // WSZYSTKIE poszukiwane tytuły do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(isDesired(a)){
+            $('.giveaway__row-outer-wrap:first').prepend(a);
+        }
+    });
+
+    // POSZUKIWANE LEVELE do przodu
+    // poszukiwany level 1 do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if(isDesired(a) && 1==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
+            $('.giveaway__row-outer-wrap:first').prepend(a);
+        }
+    });
+
+    // poszukiwany level 2 do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if(isDesired(a) && 2==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
+            $('.giveaway__row-outer-wrap:first').prepend(a);
+        }
+    });
+
+    // poszukiwany level 3 do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if(isDesired(a) && 3==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
+            $('.giveaway__row-outer-wrap:first').prepend(a);
+        }
+    });
+
+    // poszukiwany level 4 do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if(isDesired(a) && 4==parseInt( $(a).find('.giveaway__column--contributor-level').text().replace(/\D+/g,'')) ){
             $('.giveaway__row-outer-wrap:first').prepend(a);
         }
     });
