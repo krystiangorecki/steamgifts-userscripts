@@ -2,6 +2,7 @@
 // @name        steamgitfs-mainpage
 // @namespace   https://github.com/krystiangorecki/steamgifts-mainpage/
 // @author      krystiangorecki
+// @icon        https://cdn.steamgifts.com/img/favicon.ico
 // @match       http://www.steamgifts.com/
 // @match       https://www.steamgifts.com/
 // @match       https://www.steamgifts.com/giveaways/search*
@@ -10,8 +11,8 @@
 // @grant       GM_addStyle
 // @grant       none
 // @version     2019.01.03
-// @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-mainpage/master/steamgitfs-mainpage.js
-// @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-mainpage/master/steamgitfs-mainpage.js
+// @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgitfs-mainpage.js
+// @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgitfs-mainpage.js
 // ==/UserScript==
 
 var BEGINNING = '.page__heading'; //'.pinned-giveaways__outer-wrap';
