@@ -9,7 +9,7 @@
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @grant       GM_addStyle
 // @grant       none
-// @version 20190102
+// @version     2019.01.02
 // ==/UserScript==
 
 var BEGINNING = '.page__heading'; //'.pinned-giveaways__outer-wrap';
