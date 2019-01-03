@@ -7,8 +7,8 @@
 // @match       https://www.steamgifts.com/giveaway/*
 // @grant       none
 // @version     2018
-// @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgitfs-giveawaypage.js
-// @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgitfs-giveawaypage.js
+// @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-giveawaypage.js
+// @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-giveawaypage.js
 // ==/UserScript==
 
 var retryCount = 5;
