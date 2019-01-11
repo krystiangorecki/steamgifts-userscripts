@@ -146,12 +146,14 @@ function sgSort(){
 
 function blockButton(){
     var button = $('#nextPageButton').first();
-    button.style=button.css('text-decoration','line-through');
+    button.css('text-decoration','line-through');
+    button.attr('disabled','');
 }
 
 function unblockButton(){
     var button = $('#nextPageButton').first();
-    button.style=button.css('text-decoration','');
+    button.css('text-decoration','');
+    button.removeAttr('disabled');
 }
 
 function sgLoadAnotherPage1(){
