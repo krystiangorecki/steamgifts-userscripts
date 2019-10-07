@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name        stemgifts-giveawaypage
+// @name        steamgifts-giveawaypage
 // @namespace   https://github.com/krystiangorecki/steamgifts-userscripts/
 // @author      krystiangorecki
 // @icon        https://cdn.steamgifts.com/img/favicon.ico
 // @match       http://www.steamgifts.com/giveaway/*
 // @match       https://www.steamgifts.com/giveaway/*
 // @grant       none
-// @version     2018
+// @version     2019.10
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-giveawaypage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-giveawaypage.js
 // ==/UserScript==
