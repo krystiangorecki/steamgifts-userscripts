@@ -15,10 +15,10 @@ var retryCount = 5;
 
 (function () {
 	'use strict';
-	execute();
+	autoEnter();
 })();
 
-function execute() {
+function autoEnter() {
 	// alert("start");
 
 	// autoklikanie
