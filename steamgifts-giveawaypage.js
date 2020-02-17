@@ -6,7 +6,7 @@
 // @match       http://www.steamgifts.com/giveaway/*
 // @match       https://www.steamgifts.com/giveaway/*
 // @grant       none
-// @version     2019.10
+// @version     2020.2
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-giveawaypage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-giveawaypage.js
 // ==/UserScript==
@@ -16,6 +16,7 @@ var retryCount = 5;
 (function () {
 	'use strict';
 	autoEnter();
+	resizeEntryCount();
 })();
 
 function autoEnter() {
@@ -31,6 +32,13 @@ function autoEnter() {
 		setTimeout(clickLink, 2000);
 		setTimeout(checkIsDeleteEntryLinkVisible, 7000);
 	}
+}
+
+function resizeEntryCount(){
+	debugger;
+	var element = document.querySelector(".live__entry-count");
+	//var number = parseInt(element.innerText.replace(",",""), 10);
+	element.style='font-size:3em';
 }
 
 function clickLink() {
