@@ -7,6 +7,8 @@
 // @match        http://www.steamgifts.com/giveaways/entered
 // @grant        none
 // @version      2020.03
+// @updateURL    https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-entered.js
+// @downloadURL  https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-entered.js
 // ==/UserScript==
 
 (function() {
