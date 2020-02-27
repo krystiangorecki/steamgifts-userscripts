@@ -10,7 +10,7 @@
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @grant       GM_addStyle
 // @grant       none
-// @version     2020.02.16
+// @version     2020.02.27
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -40,6 +40,7 @@ function sgStart(){
     sgBetterFonts();
     sgSort();
     sgRemoveEnteredButton();
+    drawEntriesBarForMainPage();
     sgGotoLoadNextPageButton();
     sgAddLoadNextPageButton();
 }
@@ -178,6 +179,7 @@ function sgLoadAnotherPage1(){
             sgSort();
             $('#nextPageButton').parent().show();
             nextPageNumber++;
+            drawEntriesBarForMainPage();
             sgRefreshButtonNumber();
             unblockButton();
         }
@@ -272,5 +274,14 @@ function getQueryVariable(variable){
         if(pair[0] == variable){return pair[1];}
     }
     return(1);
+}
+
+function drawEntriesBarForMainPage(){
+    var cells = document.querySelectorAll("a>i.fa-tag+span");
+    for(var i = 0 ; i< cells.length; i++){
+        var number = parseInt(cells[i].innerText.replace(",",""));
+        var sizeInPx = number / 10;
+        cells[i].parentElement.parentElement.style = "background: url(https://place-hold.it/20x20/FFC5C5);  background-size: " + sizeInPx + "px 100px;  background-repeat: no-repeat;";
+    }
 }
 //alert('full script loaded');
