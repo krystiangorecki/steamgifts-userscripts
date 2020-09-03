@@ -55,7 +55,7 @@ function addLowcyGierBazarLink(){
             var bazarLink = document.createElement("a");
             //bazarLink.text=" BAZAR ";
             bazarLink.innerHTML = '<img src="https://bazar.lowcygier.pl/favicon.ico" style="height:20px"/>'
-            bazarLink.class='bazar'
+            bazarLink.classList.add('bazar');
             bazarLink.setAttribute("href", "https://bazar.lowcygier.pl/?options=&type=&platform=&payment=&game_type=&game_genre=&title=" + gameTitle + "&sort=-created_at&per-page=25");
             $(element).parent().append(bazarLink);
         }
