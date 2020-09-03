@@ -43,6 +43,23 @@ function sgStart(){
     drawEntriesBarForMainPage();
     sgGotoLoadNextPageButton();
     sgAddLoadNextPageButton();
+    addLowcyGierBazarLink();
+}
+
+function addLowcyGierBazarLink(){
+    $('.giveaway__heading__name').each(function (index, element) {
+        debugger;
+        var alreadyHasBazarLink = $(element).has('.bazar').length > 0;
+        if(!alreadyHasBazarLink){
+            var gameTitle = element.text;
+            var bazarLink = document.createElement("a");
+            //bazarLink.text=" BAZAR ";
+            bazarLink.innerHTML = '<img src="https://bazar.lowcygier.pl/favicon.ico" style="height:20px"/>'
+            bazarLink.class='bazar'
+            bazarLink.setAttribute("href", "https://bazar.lowcygier.pl/?options=&type=&platform=&payment=&game_type=&game_genre=&title=" + gameTitle + "&sort=-created_at&per-page=25");
+            $(element).parent().append(bazarLink);
+        }
+    });
 }
 
 // ustawia początkowy numer kolejnej strony na podstawie numeru obecnej
@@ -182,6 +199,7 @@ function sgLoadAnotherPage1(){
             drawEntriesBarForMainPage();
             sgRefreshButtonNumber();
             unblockButton();
+            addLowcyGierBazarLink();
         }
     } );
 }
