@@ -49,7 +49,7 @@ function sgStart(){
 function addLowcyGierBazarLink(){
     $('.giveaway__heading__name').each(function (index, element) {
         debugger;
-        var alreadyHasBazarLink = $(element).has('.bazar').length > 0;
+        var alreadyHasBazarLink = $(element).nextAll('.bazar').length > 0;
         if(!alreadyHasBazarLink){
             var gameTitle = element.text;
             var bazarLink = document.createElement("a");
