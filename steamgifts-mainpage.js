@@ -10,7 +10,7 @@
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @grant       GM_addStyle
 // @grant       none
-// @version     2020.09.08
+// @version     2020.09.09
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -39,6 +39,7 @@ function sgStart(){
     sgShowPromoted();
     sgBetterFonts();
     sgSort();
+    addEditScriptLink();
     sgRemoveEnteredButton();
     drawEntriesBarForMainPage();
     sgGotoLoadNextPageButton();
@@ -243,10 +244,10 @@ function sgAddLoadNextPageButton() {
     sgRefreshButtonNumber();
 }
 
-// dodaje na stronie przycisk do pobierania kolejnej strony
+// dodaje na stronie link do przejścia do kolejnej strony
 function sgGotoLoadNextPageButton() {
     var loadNextPageButton = document.createElement("a");
-    loadNextPageButton.text="goto page " + nextPageNumber;
+    loadNextPageButton.text = " goto page " + nextPageNumber + " ";
     loadNextPageButton.setAttribute("href", "https://www.steamgifts.com/giveaways/search?page="+nextPageNumber);
     loadNextPageButton.setAttribute("id", "gotoNextPageButton");
     $(BEGINNING).parent().prepend(loadNextPageButton);
@@ -261,6 +262,15 @@ function sgRemoveEnteredButton() {
     removeEnteredButton.setAttribute("id", "removeEnteredButton");
     removeEnteredButton.onclick = sgRemoveEntered;
     $(BEGINNING).parent().prepend(removeEnteredButton);
+}
+
+// dodaje na stronie link do edycji skryptu w githubie
+function addEditScriptLink() {
+    var editScriptLink = document.createElement("a");
+    editScriptLink.text = " edit script ";
+    editScriptLink.setAttribute("href", "https://github.com/krystiangorecki/steamgifts-userscripts/edit/master/steamgifts-mainpage.js");
+    editScriptLink.setAttribute("id", "editScriptLink");
+    $(BEGINNING).parent().prepend(editScriptLink);
 }
 
 // Usuwa z DOM giveawaye, w których brałem udział.
@@ -279,7 +289,7 @@ function sgRemoveAds() {
 //aktualizuje labelkę na przycisku
 function sgRefreshButtonNumber() {
     $('#nextPageButton').val("L O A D   P A G E " + nextPageNumber);
-    $('#gotoNextPageButton').text("goto page " + nextPageNumber);
+    $('#gotoNextPageButton').text(" goto page " + nextPageNumber + " ");
     $('#gotoNextPageButton').attr("href", "https://www.steamgifts.com/giveaways/search?page="+nextPageNumber);
 }
 
