@@ -6,7 +6,7 @@
 // @match       http://www.steamgifts.com/giveaway/*
 // @match       https://www.steamgifts.com/giveaway/*
 // @grant       none
-// @version     2020.2
+// @version     2020.10
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-giveawaypage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-giveawaypage.js
 // ==/UserScript==
@@ -17,6 +17,7 @@ var retryCount = 5;
     'use strict';
     autoEnter();
     resizeEntryCount();
+    addLowcyGierBazarLink();
 })();
 
 function autoEnter() {
@@ -35,7 +36,6 @@ function autoEnter() {
 }
 
 function resizeEntryCount(){
-    debugger;
     var element = document.querySelector(".live__entry-count");
     //var number = parseInt(element.innerText.replace(",",""), 10);
     element.style='font-size:3em';
@@ -56,6 +56,17 @@ function checkIsDeleteEntryLinkVisible() {
             retryCount = retryCount - 1;
         }
     }
+}
+
+function addLowcyGierBazarLink(){
+    debugger;
+    var titEl =  document.querySelector(".featured__heading__medium");
+    var gameTitle =titEl.innerText.replace('®','');
+    var bazarLink = document.createElement("a");
+    bazarLink.innerHTML = '<img src="https://bazar.lowcygier.pl/favicon.ico" style="height:20px"/>'
+    bazarLink.classList.add('bazar');
+    bazarLink.setAttribute("href", "https://bazar.lowcygier.pl/?options=&type=&platform=&payment=&game_type=&game_genre=&title=" + gameTitle + "&sort=-created_at&per-page=25");
+    $(".featured__giveaway__hide").parent().parent().append(bazarLink);
 }
 
 function reloadPage() {
