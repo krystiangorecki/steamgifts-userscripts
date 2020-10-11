@@ -14,50 +14,50 @@
 var retryCount = 5;
 
 (function () {
-	'use strict';
-	autoEnter();
-	resizeEntryCount();
+    'use strict';
+    autoEnter();
+    resizeEntryCount();
 })();
 
 function autoEnter() {
-	// alert("start");
+    // alert("start");
 
-	// autoklikanie
-	var enterLink = document.querySelector(".sidebar__entry-insert");
-	if (enterLink == null) {
-		var noPointsButton = document.querySelector(".sidebar__error");
-		setTimeout(reloadPage, 1800000); //30min
-	} else if (enterLink.className.indexOf("is-hidden") == -1) {
-		// alert("entry link is not hidden");
-		setTimeout(clickLink, 2000);
-		setTimeout(checkIsDeleteEntryLinkVisible, 7000);
-	}
+    // autoklikanie
+    var enterLink = document.querySelector(".sidebar__entry-insert");
+    if (enterLink == null) {
+        var noPointsButton = document.querySelector(".sidebar__error");
+        setTimeout(reloadPage, 1800000); //30min
+    } else if (enterLink.className.indexOf("is-hidden") == -1) {
+        // alert("entry link is not hidden");
+        setTimeout(clickLink, 2000);
+        setTimeout(checkIsDeleteEntryLinkVisible, 7000);
+    }
 }
 
 function resizeEntryCount(){
-	debugger;
-	var element = document.querySelector(".live__entry-count");
-	//var number = parseInt(element.innerText.replace(",",""), 10);
-	element.style='font-size:3em';
+    debugger;
+    var element = document.querySelector(".live__entry-count");
+    //var number = parseInt(element.innerText.replace(",",""), 10);
+    element.style='font-size:3em';
 }
 
 function clickLink() {
-	document.querySelector("[data-do=entry_insert]").click();
+    document.querySelector("[data-do=entry_insert]").click();
 }
 
 function checkIsDeleteEntryLinkVisible() {
-	var deleteLink = document.querySelector("[data-do=entry_delete]");
-	if (deleteLink.className.indexOf("is-hidden") == -1) {
-		// alert("delete link is shown, OK");
-	} else {
-		// alert("delete link is hidden, retrying");
-		if (retryCount > 0) {
-			setTimeout(clickLink, 2000);
-			retryCount = retryCount - 1;
-		}
-	}
+    var deleteLink = document.querySelector("[data-do=entry_delete]");
+    if (deleteLink.className.indexOf("is-hidden") == -1) {
+        // alert("delete link is shown, OK");
+    } else {
+        // alert("delete link is hidden, retrying");
+        if (retryCount > 0) {
+            setTimeout(clickLink, 2000);
+            retryCount = retryCount - 1;
+        }
+    }
 }
 
 function reloadPage() {
-	window.location.replace(window.location.pathname);
+    window.location.replace(window.location.pathname);
 }
