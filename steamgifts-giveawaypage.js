@@ -6,7 +6,7 @@
 // @match       http://www.steamgifts.com/giveaway/*
 // @match       https://www.steamgifts.com/giveaway/*
 // @grant       none
-// @version     2020.10
+// @version     2021.05.17
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-giveawaypage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-giveawaypage.js
 // ==/UserScript==
@@ -60,8 +60,8 @@ function checkIsDeleteEntryLinkVisible() {
 
 function addLowcyGierBazarLink(){
     debugger;
-    var titEl =  document.querySelector(".featured__heading__medium");
-    var gameTitle =titEl.innerText.replace('®','');
+    var titEl = document.querySelector(".featured__heading__medium");
+    var gameTitle = titEl.innerText.replaceAll('®','').replaceAll('™','').replaceAll(':','').replaceAll('-',' ').replaceAll('—',' ');
     var bazarLink = document.createElement("a");
     bazarLink.innerHTML = '<img src="https://bazar.lowcygier.pl/favicon.ico" style="height:20px"/>'
     bazarLink.classList.add('bazar');
