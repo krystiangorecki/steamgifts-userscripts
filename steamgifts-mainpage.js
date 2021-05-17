@@ -10,7 +10,7 @@
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @grant       GM_addStyle
 // @grant       none
-// @version     2021.05.06
+// @version     2021.05.17
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -52,7 +52,7 @@ function addLowcyGierBazarLink(){
         debugger;
         var alreadyHasBazarLink = $(element).nextAll('.bazar').length > 0;
         if(!alreadyHasBazarLink){
-            var gameTitle = element.text.replace('®','');
+            var gameTitle = element.text.replaceAll('®','').replaceAll('™','').replaceAll(':','').replaceAll('-',' ').replaceAll('—',' ');
             var bazarLink = document.createElement("a");
             //bazarLink.text=" BAZAR ";
             bazarLink.innerHTML = '<img src="https://bazar.lowcygier.pl/favicon.ico" style="height:20px"/>'
