@@ -10,7 +10,7 @@
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @grant       GM_addStyle
 // @grant       none
-// @version     2021.06.02
+// @version     2021.06.11
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -122,6 +122,20 @@ function sgSort(){
         }
     });
 
+    // level 5 do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('5')>0 ){
+            $('.giveaway__row-outer-wrap:first').prepend(a);
+        }
+    });
+
+    // level 6 do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('6')>0 ){
+            $('.giveaway__row-outer-wrap:first').prepend(a);
+        }
+    });
+
 
     // WSZYSTKIE poszukiwane tytuły do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
@@ -155,6 +169,20 @@ function sgSort(){
     // poszukiwany level 4 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4')>0 ){
+            $('.giveaway__row-outer-wrap:first').prepend(a);
+        }
+    });
+
+    // poszukiwany level 5 do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('5')>0 ){
+            $('.giveaway__row-outer-wrap:first').prepend(a);
+        }
+    });
+
+    // poszukiwany level 6 do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('6')>0 ){
             $('.giveaway__row-outer-wrap:first').prepend(a);
         }
     });
@@ -214,11 +242,15 @@ function sgBetterFonts(){
     // alert(values.length);
     for (var i = 0; i < values.length; ++i) {
         var item = values[i];
-        if(item.innerHTML.indexOf('4+')>0){
+        if (item.innerHTML.indexOf('6+') > 0) {
+            item.style="font-size: 24px;";
+        } else if (item.innerHTML.indexOf('5+') > 0) {
+            item.style="font-size: 22px;";
+        } else if (item.innerHTML.indexOf('4+') > 0) {
             item.style="font-size: 20px;";
-        }else if(item.innerHTML.indexOf('3+')>0){
+        } else if (item.innerHTML.indexOf('3+') > 0) {
             item.style="font-size: 16px;";
-        }else if(item.innerHTML.indexOf('2+')>0){
+        } else if (item.innerHTML.indexOf('2+') > 0) {
             item.style="font-size: 14px;";
         }
     }
