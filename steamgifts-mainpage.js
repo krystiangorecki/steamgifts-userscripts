@@ -8,8 +8,9 @@
 // @match       https://www.steamgifts.com/giveaways/search*
 // @run-at      document-end
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @connect     store.steampowered.com
+// @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @grant       none
 // @version     2021.06.11
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
@@ -45,16 +46,51 @@ function sgStart(){
     sgGotoLoadNextPageButton();
     sgAddLoadNextPageButton();
     addLowcyGierBazarLink();
+    addSteamScore();
+}
+
+function addSteamScore(){
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if(!isDesired(a) && ($(a).find('.giveaway__column--contributor-level').text().indexOf('5')>0 || $(a).find('.giveaway__column--contributor-level').text().indexOf('6')>0)){
+            var url = a.querySelector('i.fa-steam').parentElement.href;
+            var hasSteamScoreInfo = a.querySelector('.steamScoreInfo') != null;
+            if(!hasSteamScoreInfo) {
+                GM.xmlHttpRequest({
+                    method: "GET",
+                    url: url,
+                    onload: function(response) {
+                        var index = response.responseText.indexOf('<div class="title">Overall Reviews:</div>');
+                        var result = response.responseText.substring(index, index + 200);
+                        index = result.indexOf("data-tooltip-html=\"");
+                        result = result.substring(index + "data-tooltip-html=\"".length);
+                        result = result.substring(0,result.indexOf("\""));
+                        result = result.substring(0, result.indexOf(' user'));
+                        var steamScoreInfo = document.createElement("div");
+                        steamScoreInfo.innerHTML = "&nbsp;" + result;
+                        steamScoreInfo.setAttribute("class", "steamScoreInfo");
+                        var timeLeftElement = a.querySelector('.fa-clock-o').parentElement;
+                        insertAfter(timeLeftElement, steamScoreInfo);
+                    }
+                });
+            }
+        }
+    });
+
+}
+
+function insertAfter(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+function insertBefore(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.previousSibling);
 }
 
 function addLowcyGierBazarLink(){
     $('.giveaway__heading__name').each(function (index, element) {
-        debugger;
         var alreadyHasBazarLink = $(element).nextAll('.bazar').length > 0;
         if(!alreadyHasBazarLink){
             var gameTitle = element.text.replaceAll('®','').replaceAll('™','').replaceAll(':','').replaceAll('-',' ').replaceAll('—',' ');
             var bazarLink = document.createElement("a");
-            //bazarLink.text=" BAZAR ";
             bazarLink.innerHTML = '<img src="https://bazar.lowcygier.pl/favicon.ico" style="height:20px"/>'
             bazarLink.classList.add('bazar');
             bazarLink.setAttribute("href", "https://bazar.lowcygier.pl/?options=&type=&platform=&payment=&game_type=&game_genre=&title=" + gameTitle + "&sort=-created_at&per-page=25");
@@ -122,19 +158,6 @@ function sgSort(){
         }
     });
 
-    // level 5 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('5')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
-        }
-    });
-
-    // level 6 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('6')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
-        }
-    });
 
 
     // WSZYSTKIE poszukiwane tytuły do przodu
@@ -187,6 +210,24 @@ function sgSort(){
         }
     });
 
+
+
+    // level 5 do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('5')>0 ){
+            $('.giveaway__row-outer-wrap:first').prepend(a);
+        }
+    });
+
+    // level 6 do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('6')>0 ){
+            $('.giveaway__row-outer-wrap:first').prepend(a);
+        }
+    });
+
+
+
     // var end = new Date().getTime();
     // alert("Sorted in " + (end-start) + "ms");
 }
@@ -229,6 +270,7 @@ function sgLoadAnotherPage1(){
             sgRefreshButtonNumber();
             unblockButton();
             addLowcyGierBazarLink();
+            addSteamScore();
         }
     } );
 }
