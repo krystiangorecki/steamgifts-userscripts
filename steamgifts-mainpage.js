@@ -11,7 +11,7 @@
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @version     2021.06.19
+// @version     2021.06.20
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -126,7 +126,7 @@ function sgSort(){
         $(a).find('.giveaway__heading__thin').each(function (n, b) {
             var isCopiesElement = $(b).text().indexOf("Copies")!= -1;
             if(isCopiesElement &&!isDesired(a)) {
-                $('.giveaway__row-outer-wrap:first').prepend(a);
+                $('.pinned-giveaways__inner-wrap:first').prepend(a);
             }
         });
         console.log($(a));
@@ -135,28 +135,28 @@ function sgSort(){
     // level 1 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('1')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
 
     // level 2 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
 
     // level 3 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('3')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
 
     // level 4 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
 
@@ -165,7 +165,7 @@ function sgSort(){
     // WSZYSTKIE poszukiwane tytuły do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(isDesired(a)){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
 
@@ -173,62 +173,58 @@ function sgSort(){
     // poszukiwany level 1 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('1')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
 
     // poszukiwany level 2 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
 
     // poszukiwany level 3 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('3')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
 
     // poszukiwany level 4 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
 
     // poszukiwany level 5 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('5')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
 
     // poszukiwany level 6 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('6')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
-
-
 
     // level 5 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('5')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
 
     // level 6 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if(!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('6')>0 ){
-            $('.giveaway__row-outer-wrap:first').prepend(a);
+            $('.pinned-giveaways__inner-wrap:first').prepend(a);
         }
     });
-
-
 
     // var end = new Date().getTime();
     // alert("Sorted in " + (end-start) + "ms");
