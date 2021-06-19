@@ -51,31 +51,33 @@ function sgStart(){
 
 function addSteamScore(){
     $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if(!isDesired(a) && ($(a).find('.giveaway__column--contributor-level').text().indexOf('5')>0 || $(a).find('.giveaway__column--contributor-level').text().indexOf('6')>0)){
-            var url = a.querySelector('i.fa-steam').parentElement.href;
-            var hasSteamScoreInfo = a.querySelector('.steamScoreInfo') != null;
-            if(!hasSteamScoreInfo) {
-                GM.xmlHttpRequest({
-                    method: "GET",
-                    url: url,
-                    onload: function(response) {
-                        var index = response.responseText.indexOf('<div class="title">Overall Reviews:</div>');
-                        var result = response.responseText.substring(index, index + 200);
-                        index = result.indexOf("data-tooltip-html=\"");
-                        result = result.substring(index + "data-tooltip-html=\"".length);
-                        result = result.substring(0,result.indexOf("\""));
-                        result = result.substring(0, result.indexOf(' user'));
-                        var steamScoreInfo = document.createElement("div");
-                        steamScoreInfo.innerHTML = "&nbsp;" + result;
-                        steamScoreInfo.setAttribute("class", "steamScoreInfo");
-                        var timeLeftElement = a.querySelector('.fa-clock-o').parentElement;
-                        insertAfter(timeLeftElement, steamScoreInfo);
-                    }
-                });
+        if(!isDesired(a)) {
+            var level = $(a).find('.giveaway__column--contributor-level').text();
+            if(level.indexOf('2') > 0 || level.indexOf('3') > 0 || level.indexOf('4') > 0 || level.indexOf('5') > 0 || level.indexOf('6') > 0) {
+                var url = a.querySelector('i.fa-steam').parentElement.href;
+                var hasSteamScoreInfo = a.querySelector('.steamScoreInfo') != null;
+                if(!hasSteamScoreInfo) {
+                    GM.xmlHttpRequest({
+                        method: "GET",
+                        url: url,
+                        onload: function(response) {
+                            var index = response.responseText.indexOf('<div class="title">Overall Reviews:</div>');
+                            var result = response.responseText.substring(index, index + 200);
+                            index = result.indexOf("data-tooltip-html=\"");
+                            result = result.substring(index + "data-tooltip-html=\"".length);
+                            result = result.substring(0,result.indexOf("\""));
+                            result = result.substring(0, result.indexOf(' user'));
+                            var steamScoreInfo = document.createElement("div");
+                            steamScoreInfo.innerHTML = "&nbsp;" + result;
+                            steamScoreInfo.setAttribute("class", "steamScoreInfo");
+                            var timeLeftElement = a.querySelector('.fa-clock-o').parentElement;
+                            insertAfter(timeLeftElement, steamScoreInfo);
+                        }
+                    });
+                }
             }
         }
     });
-
 }
 
 function insertAfter(referenceNode, newNode) {
