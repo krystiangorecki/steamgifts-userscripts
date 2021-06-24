@@ -11,7 +11,7 @@
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @version     2021.06.24
+// @version     2021.06.25
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -57,21 +57,25 @@ function addSteamScore() {
                 var url = a.querySelector('i.fa-steam').parentElement.href;
                 var hasSteamScoreInfo = a.querySelector('.steamScoreInfo') != null;
                 if (!hasSteamScoreInfo) {
+                    // adding new element before executing the request to reserve the space
+                    // to avoid adding second element before this request completes when quick loading next pages
+                    var steamScoreInfo = document.createElement("div");
+                    steamScoreInfo.setAttribute("class", "steamScoreInfo");
+                    steamScoreInfo.innerHTML = "---";
+                    var timeLeftElement = a.querySelector('.fa-clock-o').parentElement;
+                    insertAfter(timeLeftElement, steamScoreInfo);
                     GM.xmlHttpRequest({
                         method: "GET",
                         url: url,
                         onload: function(response) {
+                            // fill prevoiusly added element with data from the response
                             var index = response.responseText.indexOf('<div class="title">Overall Reviews:</div>');
                             var result = response.responseText.substring(index, index + 200);
                             index = result.indexOf("data-tooltip-html=\"");
                             result = result.substring(index + "data-tooltip-html=\"".length);
                             result = result.substring(0,result.indexOf("\""));
                             result = result.substring(0, result.indexOf(' user'));
-                            var steamScoreInfo = document.createElement("div");
                             steamScoreInfo.innerHTML = "&nbsp;" + result;
-                            steamScoreInfo.setAttribute("class", "steamScoreInfo");
-                            var timeLeftElement = a.querySelector('.fa-clock-o').parentElement;
-                            insertAfter(timeLeftElement, steamScoreInfo);
                         }
                     });
                 }
