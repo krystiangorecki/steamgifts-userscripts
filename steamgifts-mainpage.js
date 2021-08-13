@@ -11,7 +11,7 @@
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @version     2021.08.13
+// @version     2021.08.14
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -327,8 +327,8 @@ function sgGotoLoadNextPageButton() {
 function sgRemoveEnteredButton() {
     var removeEnteredButton = document.createElement("input");
     removeEnteredButton.setAttribute("type", "button");
-    removeEnteredButton.setAttribute("style",  "width:20%");
-    removeEnteredButton.setAttribute("value",  "removeEntered");
+    removeEnteredButton.setAttribute("style", "width:20% ; margin-bottom:8px");
+    removeEnteredButton.setAttribute("value", "removeEntered");
     removeEnteredButton.setAttribute("id", "removeEnteredButton");
     removeEnteredButton.onclick = sgRemoveEntered;
     $(BEGINNING).parent().prepend(removeEnteredButton);
