@@ -37,6 +37,7 @@ function sgStart() {
     //sgRemoveAds();
     sgSetNextPageNumber();
     //sgRemoveEntered();
+    sgShowPromoted();
     sgBetterFonts();
     sgSort();
     addEditScriptLink();
@@ -109,6 +110,11 @@ function sgSetNextPageNumber() {
     var currentPageNumber = getQueryVariable('page');
     // alert(currentPageNumber);
     nextPageNumber = parseInt(currentPageNumber) + 1;
+}
+
+function sgShowPromoted() {
+    // rozwijam zwinięte giveawaye, bo po moim sortowaniu trafią tam te najciekawsze
+    $('.pinned-giveaways__inner-wrap--minimized').removeClass('pinned-giveaways__inner-wrap--minimized');
 }
 
 function sgSort() {
