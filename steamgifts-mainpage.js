@@ -11,7 +11,7 @@
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @version     2021.08.14
+// @version     2021.08.15
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
