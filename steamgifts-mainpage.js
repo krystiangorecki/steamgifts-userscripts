@@ -11,10 +11,12 @@
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @version     2022.05.03
+// @version     2022.05.14
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
+
+GM_addStyle(' .separator { border-top:solid red 2px }');
 
 var BEGINNING = '.page__heading'; //'.pinned-giveaways__outer-wrap';
 
@@ -123,6 +125,8 @@ function sgSort() {
 
     $container = $('.giveaway__row-outer-wrap:first').parent();
 
+    $('.separator').removeClass("separator");
+
     // więcej niż 1 kopia(posiada tekst "Copies") do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         console.log($(a));
@@ -215,6 +219,10 @@ function sgSort() {
             $container.prepend(a);
         }
     });
+
+    // oddzielam nieznane tytuły z dużym levelem od znanych
+    $('.giveaway__row-outer-wrap').first().addClass('separator');
+
 
     // level 5 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
