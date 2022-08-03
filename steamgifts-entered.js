@@ -22,6 +22,6 @@ function drawEntriesBarForEnteredPage(){
         var cell = rows[i].querySelector(".table__column--width-small");
         var number = parseInt(cell.innerText.replace(",",""));
         var sizeInPx = number / 15;
-        cell.style = "background: url(https://place-hold.it/20x20/FCC);  background-size: " + sizeInPx + "px 50px;  background-repeat: no-repeat;";
+        cell.style = "background: url(https://krystiangorecki.github.io/20x20_FFC5C5.png);  background-size: " + sizeInPx + "px 50px;  background-repeat: no-repeat;";
     }
 }
