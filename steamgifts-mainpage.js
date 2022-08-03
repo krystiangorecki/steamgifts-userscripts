@@ -11,7 +11,7 @@
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @version     2022.08.04
+// @version     2022.08.05
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -393,7 +393,7 @@ function drawEntriesBarForMainPage() {
     for(var i = 0; i < cells.length; i++) {
         var number = parseInt(cells[i].innerText.replace(",",""));
         var sizeInPx = number / 10;
-        cells[i].parentElement.parentElement.style = "background: url(https://place-hold.it/20x20/FFC5C5);  background-size: " + sizeInPx + "px 100px;  background-repeat: no-repeat;";
+        cells[i].parentElement.parentElement.style = "background: url(https://krystiangorecki.github.io/20x20_FFC5C5.png);  background-size: " + sizeInPx + "px 100px;  background-repeat: no-repeat;";
     }
 }
 //alert('full script loaded');
