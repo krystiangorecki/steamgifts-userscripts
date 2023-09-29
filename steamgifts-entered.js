@@ -89,7 +89,7 @@ function httpGETWithCORSbypass(url, selector, link) {
             } else {
                 size = "-";
             }
-            link.innerText = linkText + " -- " + size;
+            link.innerHTML = linkText + " -- <strong>" + size + "</strong>";
         },
         ontimeout: function(response) {
             console.log('ontimeout');
