@@ -11,7 +11,7 @@
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @version     2023.10.06
+// @version     2023.10.07
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -147,6 +147,13 @@ function sgSort() {
         }
     });
 
+    // level 1 więcej niż 1 kopia (posiada tekst "Copies") do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('1') > 0  && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
+            $container.prepend(a);
+        }
+    });
+
     // level 2 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2') > 0 ) {
@@ -154,9 +161,24 @@ function sgSort() {
         }
     });
 
+    // level 2 więcej niż 1 kopia (posiada tekst "Copies") do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2') > 0  && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
+            $container.prepend(a);
+        }
+    });
+
+
     // level 3 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('3') > 0 ) {
+            $container.prepend(a);
+        }
+    });
+
+    // level 3 więcej niż 1 kopia (posiada tekst "Copies") do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('3') > 0  && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
             $container.prepend(a);
         }
     });
@@ -168,6 +190,12 @@ function sgSort() {
         }
     });
 
+    // level 4 więcej niż 1 kopia (posiada tekst "Copies") do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4') > 0  && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
+            $container.prepend(a);
+        }
+    });
 
 
     // WSZYSTKIE poszukiwane tytuły do przodu
@@ -185,9 +213,23 @@ function sgSort() {
         }
     });
 
+    // poszukiwany level 1 więcej niż 1 kopia (posiada tekst "Copies") do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('1') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
+            $container.prepend(a);
+        }
+    });
+
     // poszukiwany level 2 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2') > 0 ) {
+            $container.prepend(a);
+        }
+    });
+
+    // poszukiwany level 2 więcej niż 1 kopia (posiada tekst "Copies") do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
             $container.prepend(a);
         }
     });
@@ -199,9 +241,23 @@ function sgSort() {
         }
     });
 
+    // poszukiwany level 3 więcej niż 1 kopia (posiada tekst "Copies") do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('3') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
+            $container.prepend(a);
+        }
+    });
+
     // poszukiwany level 4 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4') > 0 ) {
+            $container.prepend(a);
+        }
+    });
+
+    // poszukiwany level 4 więcej niż 1 kopia (posiada tekst "Copies") do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
             $container.prepend(a);
         }
     });
@@ -213,9 +269,23 @@ function sgSort() {
         }
     });
 
+    // poszukiwany level 5 więcej niż 1 kopia (posiada tekst "Copies") do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('5') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
+            $container.prepend(a);
+        }
+    });
+
     // poszukiwany level 6 do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('6') > 0 ) {
+            $container.prepend(a);
+        }
+    });
+
+    // poszukiwany level 6 więcej niż 1 kopia (posiada tekst "Copies") do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('6') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
             $container.prepend(a);
         }
     });
