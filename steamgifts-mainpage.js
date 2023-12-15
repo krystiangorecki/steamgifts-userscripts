@@ -6,12 +6,13 @@
 // @match       http://www.steamgifts.com/
 // @match       https://www.steamgifts.com/
 // @match       https://www.steamgifts.com/giveaways/search*
+// @match       https://www.steamgifts.com/game/*
 // @run-at      document-end
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @version     2023.12.14
+// @version     2023.12.15
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
