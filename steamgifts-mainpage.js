@@ -44,6 +44,7 @@ function sgStart() {
     sgBetterFonts();
     sgSort();
     addEditScriptLink();
+    addEditScriptLink2();
     sgRemoveEnteredButton();
     drawEntriesBarForMainPage();
     sgGotoLoadNextPageButton();
@@ -422,10 +423,31 @@ function sgRemoveEnteredButton() {
 // dodaje na stronie link do edycji skryptu w githubie
 function addEditScriptLink() {
     var editScriptLink = document.createElement("a");
-    editScriptLink.text = " edit script ";
+    editScriptLink.text = ` edit script (${GM_info.script.version})`;
     editScriptLink.setAttribute("href", "https://github.com/krystiangorecki/steamgifts-userscripts/edit/master/steamgifts-mainpage.js");
     editScriptLink.setAttribute("id", "editScriptLink");
     $(BEGINNING).parent().prepend(editScriptLink);
+}
+
+function addEditScriptLink2() {
+    const versionDisplay = document.createElement('div');
+    versionDisplay.style.position = 'fixed';
+    versionDisplay.style.bottom = '10px';
+    versionDisplay.style.right = '10px';
+    versionDisplay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    versionDisplay.style.color = 'white';
+    versionDisplay.style.padding = '5px 10px';
+    versionDisplay.style.borderRadius = '5px';
+    versionDisplay.style.opacity = '0.2';
+    versionDisplay.style.zIndex = '9999';
+
+    const editScriptLink = document.createElement("a");
+    editScriptLink.text = ` edit script (${GM_info.script.version})`;
+    editScriptLink.setAttribute("href", "https://github.com/krystiangorecki/steamgifts-userscripts/edit/master/steamgifts-mainpage.js");
+    editScriptLink.setAttribute("id", "editScriptLink");
+    versionDisplay.appendChild(editScriptLink);
+
+    document.body.appendChild(versionDisplay);
 }
 
 // Usuwa z DOM giveawaye, w których brałem udział.
