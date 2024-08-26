@@ -11,8 +11,8 @@
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
-// @grant       GM_addStyled
-// @version     2024.08.26
+// @grant       GM_addStyle
+// @version     2024.08.27
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
