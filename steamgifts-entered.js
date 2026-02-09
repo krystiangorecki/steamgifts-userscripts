@@ -7,7 +7,7 @@
 // @match        http://www.steamgifts.com/giveaways/entered*
 // @grant        GM.xmlHttpRequest
 // @connect      bazar.lowcygier.pl
-// @version      2025.01
+// @version      2026.01
 // @updateURL    https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-entered.js
 // @downloadURL  https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-entered.js
 // ==/UserScript==
