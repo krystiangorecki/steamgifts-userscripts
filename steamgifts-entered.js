@@ -7,10 +7,14 @@
 // @match        http://www.steamgifts.com/giveaways/entered*
 // @grant        GM.xmlHttpRequest
 // @connect      bazar.lowcygier.pl
-// @version      2023.09
+// @version      2025.01
 // @updateURL    https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-entered.js
 // @downloadURL  https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-entered.js
 // ==/UserScript==
+
+// v202501 caching of duplicate entries + requests made one by one instead of firehose of requests
+
+const downloadedPricesMap = new Map();
 
 (function() {
     'use strict';
@@ -20,7 +24,7 @@
 
 function drawEntriesBarForEnteredPage() {
     var rows = document.querySelectorAll('.table__row-inner-wrap');
-    for (var i = 0 ; i< rows.length; i++) {
+    for (var i = 0 ; i < rows.length; i++) {
         var cell = rows[i].querySelector(".table__column--width-small");
         var number = parseInt(cell.innerText.replace(",",""));
         var sizeInPx = number / 15;
@@ -41,64 +45,62 @@ function addLoadBazarPricesButton() {
     }
 }
 
-function loadBazarPrices(){
-    var rows = document.querySelectorAll('.widget-container > div > div.table .table__rows .table__row-inner-wrap');
-    rows.forEach((row) => {
-        var gameTitleElement = row.querySelector(' a.table__column__heading');
+async function loadBazarPrices() {
+    var rows = document.querySelectorAll(
+        '.widget-container > div > div.table .table__rows .table__row-inner-wrap'
+    );
+
+    for (const row of rows) {
+        var gameTitleElement = row.querySelector('a.table__column__heading');
         var gameTitle = getCleanGameTitle(gameTitleElement);
         var destination = row.querySelector('.table__column--width-small > span[data-timestamp]').parentElement;
-        loadBazarPrice(gameTitle, destination);
-    });
+
+        if (downloadedPricesMap.has(gameTitle)) {
+            updatePrice(gameTitle, destination, downloadedPricesMap.get(gameTitle));
+            continue;
+        }
+
+        const price = await httpGETWithCORSbypassPromise('https://bazar.lowcygier.pl/?options=&type=&platform=&payment=&game_type=&game_genre=&sort=-created_at&per-page=25&title=' + gameTitle, '#w0 p.prc', gameTitle);
+
+        downloadedPricesMap.set(gameTitle, price);
+        updatePrice(gameTitle, destination, price);
+
+        await new Promise(r => setTimeout(r, 300));
+    }
 }
 
-function loadBazarPrice(gameTitle, destination){
-    var selector = '#w0 p.prc'
-    httpGETWithCORSbypass('https://bazar.lowcygier.pl/?options=&type=&platform=&payment=&game_type=&game_genre=&sort=-created_at&per-page=25&title=' + gameTitle, selector, destination);
+function updatePrice(gameTitle, destination, price){
+    var linkText = destination.innerText;
+    destination.innerHTML = linkText + price;
 }
 
 function getCleanGameTitle(element) {
-    return element.innerText.replaceAll('®','').replaceAll('™','').replaceAll(':','').replaceAll('-',' ').replaceAll('—',' ').replaceAll('+','');
+    let titleWithoutPoints = element.childNodes[0];
+    return titleWithoutPoints.textContent.replaceAll('®','').replaceAll('™','').replaceAll(':','').replaceAll('-',' ').replaceAll('—',' ').replaceAll('+','').trim();
 }
 
-function httpGETWithCORSbypass(url, selector, link) {
-    var linkText = link.innerText;
-    link.innerText = linkText + " ...";
-    GM.xmlHttpRequest({
-        method: "GET",
-        url: url,
-        onload: function(response) {
-            var dom2 = htmlToElement(response.responseText);
-            var size = dom2.querySelector(selector);
-            if (size != null) {
-                size = size.innerText;
-                size = size.trim();
-                if (contains(url, 'upfiles.com')) {
-                    size = size.replace(/.*\(/, '(');
+function httpGETWithCORSbypassPromise(url, selector, gameTitle) {
+    return new Promise((resolve) => {
+        GM.xmlHttpRequest({
+            method: "GET",
+            url: url,
+            onload: function(response) {
+                var dom2 = htmlToElement(response.responseText);
+                var price = dom2.querySelector(selector);
+                if (price != null) {
+                    price = price.innerText.trim().replace('(', '').replace(')', '');
+                } else {
+                    price = "---";
                 }
-                size = size.replace('Size', '');
-                size = size.replace('(','').replace(')','');
-                if (size.length == 0 || contains(size, 'Earn money') || contains(size, 'File Not Found') || contains(size, 'deleted')) {
-                    size = "-";
-                }
-                if (contains(url, 'filefactory.com')) {
-                    size = size.replace(/ uploaded.*/, '');
-                }
-                if (contains(url, 'embedrise.com')) {
-                    size = size.replace(',', '').replace('.',',');
-                }
-            } else {
-                size = "-";
+                resolve(" -- <strong>" + price + "</strong>");
+            },
+            ontimeout: function() {
+                resolve(" timeout!");
+            },
+            onerror: function(response) {
+                resolve(" error: " + response.error);
             }
-            link.innerHTML = linkText + " -- <strong>" + size + "</strong>";
-        },
-        ontimeout: function(response) {
-            console.log('ontimeout');
-            link.innerText = linkText + " timeout!";
-        },
-        onerror: function(response) {
-            link.innerText = linkText + " error: " + response.error;
-            console.log(response);
-        },
+        });
     });
 }
 
