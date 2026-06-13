@@ -12,7 +12,7 @@
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @version     2026.06.11
+// @version     2026.06.13
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -51,6 +51,19 @@ function sgStart() {
     sgAddLoadNextPageButton();
     addLowcyGierBazarLink();
     addSteamScore();
+    makeHeaderFixed();
+}
+
+function makeHeaderFixed() {
+    const style = document.createElement('style');
+    style.textContent = `
+        header {
+            position: fixed !important;
+            width: 100% !important;
+            z-index: 999 !important;
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 function addSteamScore() {
