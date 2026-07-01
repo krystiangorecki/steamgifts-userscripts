@@ -18,6 +18,7 @@
 // ==/UserScript==
 
 GM_addStyle(' .separator { border-top:solid red 2px }');
+GM_addStyle(' .ui-tooltip-content {display: none;}');
 
 var BEGINNING = '.page__heading'; //'.pinned-giveaways__outer-wrap';
 
