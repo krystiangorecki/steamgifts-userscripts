@@ -12,7 +12,7 @@
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @version     2026.08.20
+// @version     2026.08.22
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -147,7 +147,14 @@ function sgSort() {
 
     $('.separator').removeClass("separator");
 
-    // więcej niż 1 kopia(posiada tekst "Copies") do przodu
+    // WSZYSTKIE poszukiwane tytuły do przodu
+    $('.giveaway__row-outer-wrap').each(function (i, a) {
+        if (isDesired(a)) {
+            $container.prepend(a);
+        }
+    });
+
+    // więcej niż 1 kopia (posiada tekst "Copies") do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         console.log($(a));
         // debugger;
@@ -213,14 +220,6 @@ function sgSort() {
     // level 4 więcej niż 1 kopia (posiada tekst "Copies") do przodu
     $('.giveaway__row-outer-wrap').each(function (i, a) {
         if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4') > 0  && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
-            $container.prepend(a);
-        }
-    });
-
-
-    // WSZYSTKIE poszukiwane tytuły do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a)) {
             $container.prepend(a);
         }
     });
