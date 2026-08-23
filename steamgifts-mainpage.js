@@ -12,7 +12,7 @@
 // @connect     store.steampowered.com
 // @grant       GM.xmlHttpRequest
 // @grant       GM_addStyle
-// @version     2026.08.22
+// @version     2026.08.24
 // @updateURL   https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // @downloadURL https://raw.githubusercontent.com/krystiangorecki/steamgifts-userscripts/master/steamgifts-mainpage.js
 // ==/UserScript==
@@ -140,196 +140,125 @@ function sgShowPromoted() {
 }
 
 function sgSort() {
-    // alert('sgSort');
-    // var start = new Date().getTime();
 
-    $container = $('.giveaway__row-outer-wrap:first').parent();
+    const $rows = $('.giveaway__row-outer-wrap');
+    const $container = $rows.first().parent();
 
-    $('.separator').removeClass("separator");
+    $('.separator').removeClass('separator');
 
-    // WSZYSTKIE poszukiwane tytuły do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a)) {
-            $container.prepend(a);
-        }
+    const rows = $rows.toArray().map((element, index) => {
+        const $row = $(element);
+
+        const desired = isDesired(element);
+
+        const levelText = $row
+            .find('.giveaway__column--contributor-level')
+            .text();
+
+        const copies = $row
+            .find('.giveaway__heading__thin')
+            .text()
+            .includes('Copies');
+
+        const match = levelText.match(/\b([1-6])\b/);
+        const level = match ? Number(match[1]) : null;
+
+        return {
+            element,
+            index,
+            desired,
+            level,
+            copies
+        };
     });
 
-    // więcej niż 1 kopia (posiada tekst "Copies") do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        console.log($(a));
-        // debugger;
-        $(a).find('.giveaway__heading__thin').each(function (n, b) {
-            var isCopiesElement = $(b).text().indexOf("Copies") != -1;
-            if (isCopiesElement &&!isDesired(a)) {
-                $container.prepend(a);
+    function sortPriority(row) {
+        const { desired, level, copies } = row;
+
+        /*
+         * 0: Unknown level 5
+         *
+         * This is intentionally BEFORE desired items.
+         */
+        if (!desired && level === 5) {
+            return [0, 0, 0];
+        }
+
+        /*
+         * 1: Desired items
+         *
+         * Level 5 -> 1
+         * Copies before normal.
+         * Unknown desired level comes last.
+         */
+        if (desired) {
+            if (level !== null) {
+                return [
+                    1,
+                    6 - level,
+                    copies ? 0 : 1
+                ];
             }
-        });
-        console.log($(a));
-    });
 
-    // level 1 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('1') > 0 ) {
-            $container.prepend(a);
+            return [1, 99, 0];
         }
-    });
 
-    // level 1 więcej niż 1 kopia (posiada tekst "Copies") do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('1') > 0  && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
-            $container.prepend(a);
+        /*
+         * 2: Unknown levels 4 -> 1
+         *
+         * Copies before normal.
+         */
+        if (level !== null && level >= 1 && level <= 4) {
+            return [
+                2,
+                5 - level,
+                copies ? 0 : 1
+            ];
         }
-    });
 
-    // level 2 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2') > 0 ) {
-            $container.prepend(a);
+        /*
+         * 3: Everything else.
+         */
+        return [3, 0, 0];
+    }
+
+    rows.sort((a, b) => {
+        const pa = sortPriority(a);
+        const pb = sortPriority(b);
+
+        for (let i = 0; i < pa.length; i++) {
+            if (pa[i] !== pb[i]) {
+                return pa[i] - pb[i];
+            }
         }
+
+        // Keep original order when two rows have the same priority.
+        return a.index - b.index;
     });
 
-    // level 2 więcej niż 1 kopia (posiada tekst "Copies") do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2') > 0  && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
-            $container.prepend(a);
-        }
+    /*
+     * Reinsert everything once.
+     */
+    const fragment = document.createDocumentFragment();
+
+    rows.forEach(row => {
+        fragment.appendChild(row.element);
     });
 
+    $container[0].appendChild(fragment);
 
-    // level 3 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('3') > 0 ) {
-            $container.prepend(a);
-        }
-    });
+    /*
+     * Separator goes on the first DESIRED row.
+     *
+     * Therefore the unknown level-5 section stays above it.
+     */
+    const firstDesired = rows.find(row => row.desired);
 
-    // level 3 więcej niż 1 kopia (posiada tekst "Copies") do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('3') > 0  && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // level 4 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4') > 0 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // level 4 więcej niż 1 kopia (posiada tekst "Copies") do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4') > 0  && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // POSZUKIWANE LEVELE do przodu
-    // poszukiwany level 1 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('1') > 0 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // poszukiwany level 1 więcej niż 1 kopia (posiada tekst "Copies") do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('1') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // poszukiwany level 2 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2') > 0 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // poszukiwany level 2 więcej niż 1 kopia (posiada tekst "Copies") do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('2') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // poszukiwany level 3 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('3') > 0 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // poszukiwany level 3 więcej niż 1 kopia (posiada tekst "Copies") do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('3') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // poszukiwany level 4 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4') > 0 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // poszukiwany level 4 więcej niż 1 kopia (posiada tekst "Copies") do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('4') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // poszukiwany level 5 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('5') > 0 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // poszukiwany level 5 więcej niż 1 kopia (posiada tekst "Copies") do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('5') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // poszukiwany level 6 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('6') > 0 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // poszukiwany level 6 więcej niż 1 kopia (posiada tekst "Copies") do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('6') > 0 && $(a).find('.giveaway__heading__thin').text().indexOf("Copies") != -1 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // oddzielam nieznane tytuły z dużym levelem od znanych
-    $('.giveaway__row-outer-wrap').first().addClass('separator');
-
-
-    // level 5 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('5') > 0 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // level 6 do przodu
-    $('.giveaway__row-outer-wrap').each(function (i, a) {
-        if (!isDesired(a) && $(a).find('.giveaway__column--contributor-level').text().indexOf('6') > 0 ) {
-            $container.prepend(a);
-        }
-    });
-
-    // var end = new Date().getTime();
-    // alert("Sorted in " + (end-start) + "ms");
+    if (firstDesired) {
+        $(firstDesired.element).addClass('separator');
+    }
 }
+
 
 function blockButton() {
     var button = $('#nextPageButton').first();
